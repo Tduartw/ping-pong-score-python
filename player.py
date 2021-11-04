@@ -3,7 +3,7 @@ class Player:
         self.name = name
         self.serve = 0
         self.points = 0
-        self.check_serve_turn - False
+
 
     def setScore(self, new_points):
         self.points = new_points
@@ -11,5 +11,5 @@ class Player:
     def setServe(self, new_serve):
         self.serve = new_serve
 
-    def getServe():
+    def getServe(self):
         return self.serve
