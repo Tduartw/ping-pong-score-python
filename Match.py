@@ -14,17 +14,18 @@ class Match:
         self.serve = True
         self.opponent = other
 
-        while not self.win:
+        while not self.win and not self.opponent.win:
 
             self.serve_total += 1
 
             self.changeSetsEvery(5)
-     
+            #Salvar o perdedor do set para fazer a comparação de 20:20 
             winner = random.choice([self, self.opponent])
+
             self.addScoreTo(winner)
 
-            print(f'{self.score} : {self.opponent.score}')
-        
+
+
 
     def changeSetsEvery(self, sets):
         if  self.serve_total == sets :
@@ -43,11 +44,21 @@ class Match:
             print(f'Saque do jogador: {self.name}')
     
 
-    @classmethod
-    def addScoreTo(winner):
+    
+    def addScoreTo(self, winner):
         winner.score += 1
-        print(f'{winner.name} marcou um ponto!')
+        print(f"Ponto para: {winner.name}")
+        print(f'({self.score} : {self.opponent.score})')
+        self.checkWinner()
 
+
+    def checkWinner(self):
+
+        #TODO adicionar na condição se o oponente tem 2 pontos a menos que player
+        #if winner.score == 21 and self.loser < winner.score - 2
+            #print(f"Fim de jogo, {player.name} ganhou")
+            #player.win = True
+        pass
 
 player_a = Match('Jogador A')
 player_b = Match('Jogador B')
