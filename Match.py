@@ -1,4 +1,5 @@
 import random
+from time import sleep
 
 class Match:
 
@@ -8,23 +9,33 @@ class Match:
         self.score = 0
         self.serve_total = 0
         self.opponent = None
+        self.loser = None
         self.win = False
+
 
     def playWith(self, other):
         self.serve = True
-        self.opponent = other
+        self.opponent = other   
+        
 
         while not self.win and not self.opponent.win:
-
+    
             self.serve_total += 1
 
-            self.changeSetsEvery(5)
-            #Salvar o perdedor do set para fazer a comparação de 20:20 
-            winner = random.choice([self, self.opponent])
+            self.checkSet()
 
+            winner = self.selectSetWinner()
             self.addScoreTo(winner)
 
+            sleep(.3)
 
+
+    def checkSet(self):
+        if self.score == 20 and self.opponent.score == 20:
+            self.serve_total = 1
+            self.changeSetsEvery(2)
+        else:
+            self.changeSetsEvery(5)
 
 
     def changeSetsEvery(self, sets):
@@ -49,16 +60,35 @@ class Match:
         winner.score += 1
         print(f"Ponto para: {winner.name}")
         print(f'({self.score} : {self.opponent.score})')
-        self.checkWinner()
+        self.checkWinner(winner)
+        
+
+    def checkWinner(self, winner):
+
+        if winner.score >= 21 and self.loser.score <= winner.score  - 2:
+            print(f"Fim de jogo, {winner.name} ganhou")
+            winner.win = True
+        
+    
+
+    def selectSetWinner(self):
+        list = [self, self.opponent]
+        random_number = random.randrange(2)
+        
+        winner = list[random_number]
+        
+        for i in range(len(list)):
+            if  i != random_number:
+                self.loser = list[i]
+
+        return winner
 
 
-    def checkWinner(self):
 
-        #TODO adicionar na condição se o oponente tem 2 pontos a menos que player
-        #if winner.score == 21 and self.loser < winner.score - 2
-            #print(f"Fim de jogo, {player.name} ganhou")
-            #player.win = True
-        pass
+
+
+
+
 
 player_a = Match('Jogador A')
 player_b = Match('Jogador B')
